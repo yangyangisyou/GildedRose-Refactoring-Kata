@@ -25,34 +25,53 @@ class GildedRose {
         }
     }
 
+    private void upgradeAgedBrieQuality(Item item) {
+		item.sellIn = item.sellIn - 1;
+        increaseQuality(item);
+        
+		if (item.sellIn < 0) {
+			increaseQuality(item);
+		}
+	}
+
+    private void upgradeBackstagePassQuality(Item item) {
+        item.sellIn = item.sellIn - 1;
+        increaseQuality(item);
+
+		if (item.sellIn < 10) {
+			increaseQuality(item);
+		}
+		if (item.sellIn < 5) {
+            increaseQuality(item);
+        }
+        if (item.sellIn < 0) {
+			item.quality = item.quality - item.quality;
+		}
+    }
+
+    private void upgradeOthersQuality(Item item) {
+		item.sellIn = item.sellIn - 1;
+
+		decreaseQuality(item);
+
+		if (item.sellIn < 0) {
+            decreaseQuality(item);
+        }
+    }
+
     public void updateItem(Item item) {
         if (item.name.equals("Sulfuras, Hand of Ragnaros")) {
 			return;
         }
         item.sellIn = item.sellIn - 1;
-
+        
         if (item.name.equals("Aged Brie")) {
-            increaseQuality(item);
-            if (item.sellIn < 0) {
-                increaseQuality(item);
-            } else if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")){
-                increaseQuality(item);
-                if (item.quality < 10) {
-                    increaseQuality(item);
-                }
-                if (item.quality < 5) {
-                    increaseQuality(item);
-                }
-                if (item.quality < 0) {
-                    item.quality = item.quality - item.quality;
-                }
-            }
-            else {
-                decreaseQuality(item);
-                if (item.sellIn < 0) {
-                    decreaseQuality(item);
-                }
-            }
+            upgradeAgedBrieQuality(item);
+        } else if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")){
+            upgradeBackstagePassQuality(item);
+        }
+        else {
+            upgradeOthersQuality(item);
 		} 
     }
 }
