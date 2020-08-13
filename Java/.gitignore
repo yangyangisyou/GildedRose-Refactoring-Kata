@@ -6,7 +6,7 @@ target/
 .project
 bin/
 .settings/
-
+.metadata/
 # Gradle
 .gradle
 /build/
